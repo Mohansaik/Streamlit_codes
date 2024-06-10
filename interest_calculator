@@ -1,0 +1,35 @@
+import streamlit as st
+
+# Set the page title and layout
+# st.set_page_config(page_title="Interest Calculator", page_icon=":moneybag:", layout="wide")
+
+# Add a title and a select box in the first section
+with st.container():
+    st.title("Interest Calculator")
+    option = st.selectbox("Choose the type of interest", ["Simple Interest", "Compound Interest"])
+
+# Add inputs in the second section
+with st.container():
+    principal = st.number_input("Enter the principal amount", min_value=0.0, step=1.0,format="%f")
+    rate = st.slider("Enter the rate of interest", min_value=0.0, max_value=20.0, step=0.10,format="%f")
+    time = st.slider("Enter the time in years", min_value=0.0, max_value=20.0, step=1.5, format="%f")
+
+# Add calculation buttons and results in the third section
+with st.container():
+    if option == "Simple Interest":
+        # Calculate simple interest
+        if st.button("Calculate Simple Interest"):
+            if principal > 0 and rate > 0 and time > 0:
+                interest = (principal * rate * time) / 100
+                st.success(f"The simple interest is {interest}")
+            else:
+                st.error("Please enter valid inputs")
+    else:
+        # Calculate compound interest
+        n = st.number_input("Enter the number of times interest is compounded in a year", min_value=1, step=1)
+        if st.button("Calculate Compound Interest"):
+            if principal > 0 and rate > 0 and time > 0 and n > 0:
+                compound_interest = principal * (1 + rate / n) ** (n * time)
+                st.success(f"The compound interest is {compound_interest}")
+            else:
+                st.error("Please enter valid inputs")
